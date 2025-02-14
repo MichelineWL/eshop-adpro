@@ -18,21 +18,35 @@ public class ProductController {
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product());
         return "createProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
+    public String createProductPost(@ModelAttribute Product product) {
         service.create(product);
-        return "redirect:list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
-        List<Product> allProducts = service.findAll();
-        model.addAttribute("products", allProducts);
+        model.addAttribute("products", service.findAll());
         return "productList";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProductPage(Model model, @PathVariable("id") String productId){
+        String productID = productId;
+        Product product = service.findProductByID(productID);
+        model.addAttribute("product", product);
+        return "editProduct";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editProductPost(@ModelAttribute Product product, Model model,
+                                  @PathVariable("id") String productId){
+        product.setProductId(productId);
+        service.edit(product);
+        return "redirect:/product/list";
     }
 }
