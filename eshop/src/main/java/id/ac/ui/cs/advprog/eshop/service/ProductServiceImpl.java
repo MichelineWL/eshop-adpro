@@ -33,4 +33,15 @@ public class ProductServiceImpl implements ProductService {
     public Product edit(Product product) {
         return productRepository.edit(product);
     }
+
+    @Override
+    public Product findById(String id) {
+        List<Product> allProducts = findAll();
+        for (Product product : allProducts) {
+            if (product.getProductId().equals(id)) {
+                return product;
+            }
+        }
+        return null;
+    }
 }
