@@ -50,4 +50,10 @@ public class ProductController {
         service.edit(product);
         return "redirect:/product/list"; // Pastikan redirect ke list dengan benar
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProductPage(Model model, @PathVariable("id") String productId){
+        service.deleteProductByID(productId);
+        return "redirect:/product/list";
+    }
 }

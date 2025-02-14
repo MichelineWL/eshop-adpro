@@ -33,4 +33,21 @@ public class ProductRepository {
 
     }
 
+    public void delete(Product deleteProduct){
+        productData.remove(deleteProduct);
+    }
+
+    public void deleteProductById(String deleteId){
+        delete(findProductByID(deleteId));
+    }
+
+    private Product findProductByID(String deleteId) {
+        for (Product product : productData) {
+            if (product.getProductId().equals(deleteId)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
 }
