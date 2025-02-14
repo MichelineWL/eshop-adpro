@@ -2,7 +2,6 @@ package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import id.ac.ui.cs.advprog.eshop.service.ProductService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,24 +12,25 @@ import java.util.List;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+
     @Autowired
     private ProductService service;
 
     @GetMapping("/create")
-    public String createProductPage(Model model){
+    public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "createProduct";
     }
 
-    @PostMapping
-    public String createProduct(@ModelAttribute Product product, Model model){
+    @PostMapping("/create")
+    public String createProductPost(@ModelAttribute Product product, Model model) {
         service.create(product);
-        return "redirect:/list*";
+        return "redirect:list";
     }
 
-    @GetMapping("/create")
-    public String productListPage(Model model){
+    @GetMapping("/list")
+    public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
