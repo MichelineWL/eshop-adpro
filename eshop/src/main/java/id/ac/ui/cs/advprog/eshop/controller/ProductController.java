@@ -18,37 +18,36 @@ public class ProductController {
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product());
         return "createProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
+    public String createProductPost(@ModelAttribute Product product) {
         service.create(product);
-        return "redirect:list";
+        return "redirect:/product/list";
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
-        List<Product> allProducts = service.findAll();
-        model.addAttribute("products", allProducts);
+        model.addAttribute("products", service.findAll());
         return "productList";
     }
 
     @GetMapping("/edit/{id}")
     public String editProductPage(Model model, @PathVariable String id) {
-        Product product = service.findById(id);
+        Product product = service.findById(Integer.parseInt(id));
         if (product == null) {
             return "redirect:/product/list";
         }
         model.addAttribute("product", product);
-        return "editProduct";
+        return "EditProduct";
     }
 
-    @PostMapping("/edit")
-    public String editProductPost(@ModelAttribute Product product) {
+    @PostMapping("/edit/{id}")
+    public String editProductPost(@PathVariable String id, @ModelAttribute Product product) {
+        product.setProductId(id); // Pastikan ID tetap sama
         service.edit(product);
-        return "redirect:/product/list";
+        return "redirect:/product/list"; // Pastikan redirect ke list dengan benar
     }
 }
