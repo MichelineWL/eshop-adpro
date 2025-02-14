@@ -35,19 +35,18 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editProductPage(Model model, @PathVariable String id) {
-        Product product = service.findById(Integer.parseInt(id));
-        if (product == null) {
-            return "redirect:/product/list";
-        }
+    public String editProductPage(Model model, @PathVariable("id") String productId){
+        String productID = productId;
+        Product product = service.findProductByID(productID);
         model.addAttribute("product", product);
-        return "EditProduct";
+        return "editProduct";
     }
 
     @PostMapping("/edit/{id}")
-    public String editProductPost(@PathVariable String id, @ModelAttribute Product product) {
-        product.setProductId(id); // Pastikan ID tetap sama
+    public String editProductPost(@ModelAttribute Product product, Model model,
+                                  @PathVariable("id") String productId){
+        product.setProductId(productId);
         service.edit(product);
-        return "redirect:/product/list"; // Pastikan redirect ke list dengan benar
+        return "redirect:/product/list";
     }
 }
