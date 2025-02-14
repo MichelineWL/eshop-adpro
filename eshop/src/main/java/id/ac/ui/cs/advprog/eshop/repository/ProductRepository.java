@@ -33,13 +33,20 @@ public class ProductRepository {
 
     }
 
+    public void delete(Product deleteProduct){
+        productData.remove(deleteProduct);
+    }
+
+    public void deleteProductById(String deleteId){
+        delete(findProductByID(deleteId));
+    }
+  
     public Product findProductByID(String productId) {
         for(Product currentProduct : productData){
             String currentProductID = currentProduct.getProductId();
             if(currentProductID.equals(productId)){
                 return currentProduct;
-            }
-        }
+
         return null;
     }
 
