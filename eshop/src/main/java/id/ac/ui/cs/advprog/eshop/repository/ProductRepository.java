@@ -7,34 +7,41 @@ import java.util.*;
 
 @Repository
 public class ProductRepository {
-    private final Map<String, Product> productData = new HashMap<>();
+    private final List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
         // Pastikan ID selalu dihasilkan jika belum ada
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(UUID.randomUUID().toString());
         }
-        productData.put(product.getProductId(), product);
+        productData.add(product);
         return product;
     }
 
     public List<Product> findAll() {
-        return new ArrayList<>(productData.values());
+        return new ArrayList<>(productData); // Return copy untuk mencegah modifikasi langsung
     }
 
-    public Product findById(String productId) {
-        return productData.get(productId);
+
+    public Product findProductByID(String productId) {
+        return productData.stream()
+                .filter(product -> product.getProductId().equals(productId))
+                .findFirst()
+                .orElse(null);
     }
 
     public Product edit(Product product) {
-        if (productData.containsKey(product.getProductId())) {
-            productData.put(product.getProductId(), product);
-            return product;
+        for (int i = 0; i < productData.size(); i++) {
+            if (productData.get(i).getProductId().equals(product.getProductId())) {
+                productData.set(i, product); // Ganti produk dengan yang baru
+                return product;
+            }
         }
         return null;
     }
 
     public void deleteProductById(String productId) {
-        productData.remove(productId);
+        productData.removeIf(product -> product.getProductId().equals(productId));
     }
+
 }

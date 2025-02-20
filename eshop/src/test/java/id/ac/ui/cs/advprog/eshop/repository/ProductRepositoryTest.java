@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,14 +23,14 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    void shouldCreateAndRetrieveProduct() {
+    void testCreateAndFind() {
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
         product.setProductQuantity(100);
         productRepository.create(product);
 
-        Iterator<Product> productIterator = productRepository.findAll();
+        Iterator<Product> productIterator = (Iterator<Product>) productRepository.findAll();
         assertTrue(productIterator.hasNext());
 
         Product retrievedProduct = productIterator.next();
@@ -39,8 +40,8 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    void shouldReturnEmptyIfNoProductsExist() {
-        Iterator<Product> productIterator = productRepository.findAll();
+    void testFindAllIfEmpty() {
+        Iterator<Product> productIterator = (Iterator<Product>) productRepository.findAll();
         assertFalse(productIterator.hasNext());
     }
 
@@ -58,7 +59,7 @@ public class ProductRepositoryTest {
         secondProduct.setProductQuantity(50);
         productRepository.create(secondProduct);
 
-        Iterator<Product> productIterator = productRepository.findAll();
+        Iterator<Product> productIterator = (Iterator<Product>) productRepository.findAll();
         assertTrue(productIterator.hasNext());
 
         Product retrievedProduct = productIterator.next();
@@ -78,7 +79,7 @@ public class ProductRepositoryTest {
         product.setProductQuantity(-99);
         productRepository.create(product);
 
-        Iterator<Product> productIterator = productRepository.findAll();
+        Iterator<Product> productIterator = (Iterator<Product>) productRepository.findAll();
         assertTrue(productIterator.hasNext());
 
         Product retrievedProduct = productIterator.next();
