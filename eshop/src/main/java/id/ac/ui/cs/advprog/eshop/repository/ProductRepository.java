@@ -3,51 +3,38 @@ package id.ac.ui.cs.advprog.eshop.repository;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class ProductRepository {
-    private List<Product> productData = new ArrayList<>();
+    private final Map<String, Product> productData = new HashMap<>();
 
     public Product create(Product product) {
-        productData.add(product);
+        // Pastikan ID selalu dihasilkan jika belum ada
+        if (product.getProductId() == null || product.getProductId().isEmpty()) {
+            product.setProductId(UUID.randomUUID().toString());
+        }
+        productData.put(product.getProductId(), product);
         return product;
     }
 
-    public Iterator<Product> findAll() {
-        return productData.iterator();
+    public List<Product> findAll() {
+        return new ArrayList<>(productData.values());
+    }
+
+    public Product findById(String productId) {
+        return productData.get(productId);
     }
 
     public Product edit(Product product) {
-        for (Product editingProduct : productData) {
-            if (Integer.parseInt(editingProduct.getProductId()) == Integer.parseInt(product.getProductId())) {
-                // Mengupdate atribut produk (nama dan jumlah)
-                editingProduct.setProductName(product.getProductName());
-                editingProduct.setProductQuantity(product.getProductQuantity());
-                return editingProduct;
-            }
-        }
-        return null;
-
-    }
-
-    public void delete(Product deleteProduct){
-        productData.remove(deleteProduct);
-    }
-
-    public void deleteProductById(String deleteId){
-        delete(findProductByID(deleteId));
-    }
-
-    private Product findProductByID(String deleteId) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(deleteId)) {
-                return product;
-            }
+        if (productData.containsKey(product.getProductId())) {
+            productData.put(product.getProductId(), product);
+            return product;
         }
         return null;
     }
 
+    public void deleteProductById(String productId) {
+        productData.remove(productId);
+    }
 }

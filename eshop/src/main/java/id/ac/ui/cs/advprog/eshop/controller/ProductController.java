@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/product")
 public class ProductController {
@@ -19,7 +17,7 @@ public class ProductController {
     @GetMapping("/create")
     public String createProductPage(Model model) {
         model.addAttribute("product", new Product());
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -31,12 +29,12 @@ public class ProductController {
     @GetMapping("/list")
     public String productListPage(Model model) {
         model.addAttribute("products", service.findAll());
-        return "productList";
+        return "ProductList";
     }
 
     @GetMapping("/edit/{id}")
     public String editProductPage(Model model, @PathVariable String id) {
-        Product product = service.findById(Integer.parseInt(id));
+        Product product = service.findById(id);
         if (product == null) {
             return "redirect:/product/list";
         }
@@ -46,14 +44,14 @@ public class ProductController {
 
     @PostMapping("/edit/{id}")
     public String editProductPost(@PathVariable String id, @ModelAttribute Product product) {
-        product.setProductId(id); // Pastikan ID tetap sama
+        product.setProductId(id);
         service.edit(product);
-        return "redirect:/product/list"; // Pastikan redirect ke list dengan benar
+        return "redirect:/product/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProductPage(Model model, @PathVariable("id") String productId){
-        service.deleteProductByID(productId);
+    public String deleteProduct(@PathVariable String id) {
+        service.deleteProductById(id);
         return "redirect:/product/list";
     }
 }
