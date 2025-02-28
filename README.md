@@ -1,7 +1,12 @@
-Refleksi 1 
-Dalam mengembangkan fitur baru dengan Spring Boot, saya belajar banyak tentang bagaimana membangun arsitektur yang rapi dengan memisahkan tugas di controller, service, dan repository. Saya jadi lebih paham pentingnya menjaga controller tetap ringan, menempatkan logika bisnis di service, dan mengelola data dengan baik di repository. Selain itu, saya juga mulai lebih terbiasa menulis kode yang lebih bersih dan mudah dipahami. Masih ada beberapa hal yang bisa diperbaiki, terutama dalam membuat kode lebih efisien dan mudah dikelola ke depannya.
+#### Refleksi 1 
 
-Refleksi 3 
+Dalam mengembangkan fitur baru dengan Spring Boot, saya belajar banyak tentang bagaimana membangun arsitektur yang rapi dengan memisahkan tugas di controller, service, dan repository. 
+Saya jadi lebih paham pentingnya menjaga controller tetap ringan, menempatkan logika bisnis di service, dan mengelola data dengan baik di repository. 
+Selain itu, saya juga mulai lebih terbiasa menulis kode yang lebih bersih dan mudah dipahami. 
+Masih ada beberapa hal yang bisa diperbaiki, terutama dalam membuat kode lebih efisien dan mudah dikelola ke depannya.
+
+
+#### Refleksi 3 
 
 #### Prinsip yang Diterapkan
 Pada proyek ini, prinsip SOLID telah diterapkan untuk memastikan kode lebih terstruktur dan mudah dikelola. Prinsip yang digunakan adalah:
