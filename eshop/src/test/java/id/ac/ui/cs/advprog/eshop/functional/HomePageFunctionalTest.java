@@ -5,17 +5,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ExtendWith(SeleniumJupiter.class)
-class HomePageFunctionalTest {
+class CreateProductFunctionalTest {
+
     @LocalServerPort
     private int serverPort;
 
@@ -30,18 +33,20 @@ class HomePageFunctionalTest {
     }
 
     @Test
-    void pageTitle_isCorrect(ChromeDriver driver) throws Exception {
-        driver.get(baseUrl);
-        String pageTitle = driver.getTitle();
+    void userCanCreateProduct(ChromeDriver driver) throws Exception {
+        driver.get(baseUrl + "/products/create");
 
-        assertEquals("ADV Shop", pageTitle);
-    }
+        WebElement nameInput = driver.findElement(By.id("productName"));
+        WebElement quantityInput = driver.findElement(By.id("productQuantity"));
+        WebElement submitButton = driver.findElement(By.id("submitProduct"));
 
-    @Test
-    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) throws Exception {
-        driver.get(baseUrl);
-        String welcomeMessage = driver.findElement(By.tagName("h3")).getText();
+        nameInput.sendKeys("Smartphone");
+        quantityInput.sendKeys("20");
+        submitButton.click();
 
-        assertEquals("Welcome", welcomeMessage);
+        Thread.sleep(2000); // Menunggu halaman reload
+
+        WebElement productList = driver.findElement(By.id("productList"));
+        assertTrue(productList.getText().contains("Smartphone"));
     }
 }
