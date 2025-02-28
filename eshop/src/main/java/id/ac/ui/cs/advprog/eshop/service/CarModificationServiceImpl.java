@@ -1,29 +1,31 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import id.ac.ui.cs.advprog.eshop.repository.CarRepositoryInterface;
-import id.ac.ui.cs.advprog.eshop.repository.InMemoryCarRepository;
+import id.ac.ui.cs.advprog.eshop.repository.CarWriteRepository;
+import id.ac.ui.cs.advprog.eshop.repository.CarDeleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CarModificationServiceImpl implements CarModificationService {
     @Autowired
-    private CarRepositoryInterface carRepository;
+    private CarWriteRepository carWriteRepository;
+
+    @Autowired
+    private CarDeleteRepository carDeleteRepository;
 
     @Override
     public Car create(Car car) {
-        carRepository.create(car);
-        return car;
+        return carWriteRepository.create(car);
     }
 
     @Override
     public void update(String carId, Car car) {
-        carRepository.update(carId, car);
+        carWriteRepository.update(carId, car);
     }
 
     @Override
     public void deleteCarById(String carId) {
-        carRepository.deleteById(carId);
+        carDeleteRepository.deleteById(carId);
     }
 }
