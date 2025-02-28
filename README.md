@@ -63,7 +63,7 @@ public class CarRepository {
 }
 
 ### Setelah Menerapkan SOLID
-#### SRP & ISP: Memisahkan Interface Berdasarkan Tanggung Jawab
+#### - SRP & ISP: Memisahkan Interface Berdasarkan Tanggung Jawab
 public interface CarQueryService {
     List<Car> findAll();
     Car findById(String id);
@@ -74,7 +74,7 @@ public interface CarModificationService {
     void update(String id, Car car);
     void deleteById(String id);
 }
-#### OCP & DIP: Gunakan Abstraksi untuk Repositori (Yang kemudian dipecah berdasarkan CRUD dan query class)
+#### - OCP & DIP: Gunakan Abstraksi untuk Repositori (Yang kemudian dipecah berdasarkan CRUD dan query class)
 public interface CarRepositoryInterface {
     Car create(Car car);
     Iterable<Car> findAll();
@@ -82,12 +82,12 @@ public interface CarRepositoryInterface {
     Car update(String id, Car updatedCar);
     void deleteById(String id);
 }
-#### Implementasi yang Sesuai dengan Abstraksi
+#### - Implementasi yang Sesuai dengan Abstraksi
 public class InMemoryCarRepository implements CarRepositoryInterface {
     private List<Car> carData = new ArrayList<>();
     // Implementasi CRUD sesuai kontrak interface
 }
-#### Dependency Inversion: Service Bergantung pada Interface, Bukan Implementasi Langsung
+#### - Dependency Inversion: Service Bergantung pada Interface, Bukan Implementasi Langsung
 @Service
 public class CarQueryServiceImpl implements CarQueryService {
     private final CarRepositoryInterface carRepository;
