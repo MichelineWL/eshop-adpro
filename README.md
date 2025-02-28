@@ -5,6 +5,7 @@ Saya jadi lebih paham pentingnya menjaga controller tetap ringan, menempatkan lo
 Selain itu, saya juga mulai lebih terbiasa menulis kode yang lebih bersih dan mudah dipahami. 
 Masih ada beberapa hal yang bisa diperbaiki, terutama dalam membuat kode lebih efisien dan mudah dikelola ke depannya.
 
+==============================================================================================================================================================================================
 
 ### Refleksi 3 
 
@@ -43,5 +44,66 @@ Pada proyek ini, prinsip SOLID telah diterapkan untuk memastikan kode lebih ters
 3. **Sulit untuk mengembangkan proyek** - Kode yang tidak terstruktur akan menyulitkan pengembang untuk menambahkan fitur baru tanpa merusak sistem yang sudah ada.
 
 Dengan menerapkan prinsip SOLID, proyek ini menjadi lebih efisien, fleksibel, dan lebih mudah dikelola di masa depan.
+
+### Sebelum Menerapkan SOLID (Tanpa SOLID)
+SRP tidak diterapkan → CarRepository menangani semua operasi (CRUD) dalam satu kelas.
+OCP tidak diterapkan → Jika ingin menambah penyimpanan database lain, kita harus mengubah CarRepository.
+ISP tidak diterapkan → Semua metode repositori ada dalam satu interface, meskipun tidak semua implementasi membutuhkannya.
+DIP tidak diterapkan → CarQueryServiceImpl dan CarModificationServiceImpl langsung bergantung pada InMemoryCarRepository, bukan abstraksi.
+
+##### Pada kode : 
+public class CarRepository {  
+    private List<Car> carData = new ArrayList<>();  
+
+    public Car create(Car car) { carData.add(car); return car; }  
+    public Iterable<Car> findAll() { return carData; }  
+    public Car findById(String id) { /* mencari berdasarkan id */ }  
+    public Car update(String id, Car updatedCar) { /* update data */ }  
+    public void deleteById(String id) { /* hapus data */ }  
+}
+
+### Setelah Menerapkan SOLID
+#### SRP & ISP: Memisahkan Interface Berdasarkan Tanggung Jawab
+public interface CarQueryService {
+    List<Car> findAll();
+    Car findById(String id);
+}
+
+public interface CarModificationService {
+    Car create(Car car);
+    void update(String id, Car car);
+    void deleteById(String id);
+}
+#### OCP & DIP: Gunakan Abstraksi untuk Repositori (Yang kemudian dipecah berdasarkan CRUD dan query class)
+public interface CarRepositoryInterface {
+    Car create(Car car);
+    Iterable<Car> findAll();
+    Car findById(String id);
+    Car update(String id, Car updatedCar);
+    void deleteById(String id);
+}
+#### Implementasi yang Sesuai dengan Abstraksi
+public class InMemoryCarRepository implements CarRepositoryInterface {
+    private List<Car> carData = new ArrayList<>();
+    // Implementasi CRUD sesuai kontrak interface
+}
+#### Dependency Inversion: Service Bergantung pada Interface, Bukan Implementasi Langsung
+@Service
+public class CarQueryServiceImpl implements CarQueryService {
+    private final CarRepositoryInterface carRepository;
+    
+    @Autowired
+    public CarQueryServiceImpl(CarRepositoryInterface carRepository) {
+        this.carRepository = carRepository;
+    }
+
+    public List<Car> findAll() { return new ArrayList<>(carRepository.findAll()); }
+    public Car findById(String carId) { return carRepository.findById(carId); }
+}
+
+
+
+
+
 
 
