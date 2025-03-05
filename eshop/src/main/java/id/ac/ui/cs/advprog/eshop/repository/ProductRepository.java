@@ -14,6 +14,9 @@ public class ProductRepository {
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(UUID.randomUUID().toString());
         }
+        if (product.getProductQuantity() < 0) {
+            product.setProductQuantity(0);
+        }
         productData.add(product);
         return product;
     }
