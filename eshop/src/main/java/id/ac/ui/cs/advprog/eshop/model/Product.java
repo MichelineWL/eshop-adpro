@@ -14,10 +14,10 @@ import java.util.UUID;
 public class Product {
     private String productId;
     private String productName;
-    private int productQuantity;
+    private Integer productQuantity;
 
     // Generate UUID jika objek dibuat tanpa ID
-    public Product(String productName, int productQuantity) {
+    public Product(String productName, Integer productQuantity) {
         this.productId = UUID.randomUUID().toString();
         this.productName = productName;
         this.productQuantity = productQuantity;
