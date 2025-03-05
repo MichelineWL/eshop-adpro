@@ -8,5 +8,5 @@ public interface ProductService {
     List<Product> findAll();
     Product findById(String productId);
     Product edit(Product product);
-    void deleteProductById(String productId); // Perbaiki nama metode
+    void deleteProductById(String productId);
 }
