@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class OrderTest {
+    // setUp for OrderTest
     private List<Product> products;
 
     @BeforeEach
@@ -25,6 +27,7 @@ class OrderTest {
         this.products.add(product2);
     }
 
+    // unhappy path test
     @Test
     void testCreateOrderEmptyProduct(){
         this.products.clear();
@@ -34,6 +37,7 @@ class OrderTest {
         });
     }
 
+    // happy path test
     @Test
     void testCreateOrderDefaultStatus(){
         Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
@@ -47,17 +51,19 @@ class OrderTest {
         assertEquals("13652556-012a-4c07-b546-54eb1396d79b", order.getId());
         assertEquals(1708560000L, order.getOrderTime());
         assertEquals("Safira Sudrajat", order.getAuthor());
-        assertEquals("WAITING PAYMENT", order.getStatus());
+        assertEquals(OrderStatus.WAITING_PAYMENT.getValue(), order.getStatus());
     }
-    
+
+    // happy path test
     @Test
     void testCreateOrderSuccessStatus(){
         Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
-                this.products, 1708560000L, "Safira Sudrajat", "SUCCESS");
+                this.products, 1708560000L, "Safira Sudrajat", OrderStatus.SUCCESS.getValue());
 
-        assertEquals("SUCCESS", order.getStatus());
+        assertEquals(OrderStatus.SUCCESS.getValue(), order.getStatus());
     }
 
+    // unhappy path test
     @Test
     void testCreateOrderInvalidStatus(){
         assertThrows(IllegalArgumentException.class, () -> {
@@ -66,14 +72,16 @@ class OrderTest {
         });
     }
 
+    // happy path test
     @Test
     void testSetStatusToCancelled(){
         Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products, 1708560000L, "Safira Sudrajat");
         order.setStatus("CANCELLED");
-        assertEquals("CANCELLED", order.getStatus());
+        assertEquals(OrderStatus.CANCELLED.getValue(), order.getStatus());
     }
 
+    // unhappy path test
     @Test
     void testSetStatusToInvalidStatus(){
         Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
