@@ -1,32 +1,41 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Payment;
+import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
 
 import java.util.List;
 
-public class PaymentServiceImpl implements PaymentService {
-    @Override
+public class PaymentServiceImpl {
+    private PaymentRepository repository;
+
+    public PaymentServiceImpl(PaymentRepository repository) {
+        this.repository = repository;
+    }
+
     public void save(Payment payment) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        repository.save(payment);
     }
 
-    @Override
-    public Payment findById(String id) {
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
-
-    @Override
     public List<Payment> findAll() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return repository.findAll();
     }
 
-    @Override
+    public Payment findById(String id) {
+        return repository.findAll().stream()
+                .filter(payment -> payment.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void delete(String id) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        repository.findAll().removeIf(payment -> payment.getId().equals(id));
     }
 
-    @Override
     public void updateStatus(String id, String status) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Payment payment = findById(id);
+        if (payment == null) {
+            throw new IllegalArgumentException("Payment not found");
+        }
+        payment.setStatus(status);
     }
 }
