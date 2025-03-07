@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
+
 import java.util.List;
 
 public class Payment {
@@ -17,7 +19,7 @@ public class Payment {
         this.order = order;
         this.method = method;
         this.paymentData = paymentData;
-        this.status = "PENDING";
+        this.status = PaymentStatus.PENDING.getValue();
     }
 
     private void validateCOD(List<String> data) {

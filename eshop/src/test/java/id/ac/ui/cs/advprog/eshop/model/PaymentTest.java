@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.*;
@@ -58,8 +59,8 @@ public class PaymentTest {
         paymentData.add("15000");
 
         Payment payment = new Payment("203", orders.get(0), "COD", paymentData);
-        payment.setStatus("COMPLETED");
+        payment.setStatus(PaymentStatus.COMPLETE.getValue());
 
-        assertEquals("COMPLETED", payment.getStatus());
+        assertEquals(PaymentStatus.COMPLETE.getValue(), payment.getStatus());
     }
 }
