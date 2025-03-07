@@ -47,7 +47,6 @@ class OrderServiceTest {
         orders.add(order2);
     }
 
-    // happy path test
     @Test
     void testCreateOrder() {
         Order order = orders.get(1);
@@ -58,7 +57,6 @@ class OrderServiceTest {
         assertEquals(order.getId(), result.getId());
     }
 
-    // unhappy path test
     @Test
     void testCreateOrderIfAlreadyExists() {
         Order order = orders.get(1);
@@ -68,12 +66,12 @@ class OrderServiceTest {
         verify(orderRepository, times(0)).save(order);
     }
 
-    // happy path test
     @Test
     void testUpdateStatus() {
         Order order = orders.get(1);
         Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(),
                 order.getAuthor(), OrderStatus.SUCCESS.getValue());
+
         doReturn(order).when(orderRepository).findById(order.getId());
         doReturn(newOrder).when(orderRepository).save(any(Order.class));
 
@@ -84,9 +82,8 @@ class OrderServiceTest {
         verify(orderRepository, times(1)).save(any(Order.class));
     }
 
-    // unhappy path test
     @Test
-    void testUpdateStatusInvalidStatus(){
+    void testUpdateStatusInvalidStatus() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).findById(order.getId());
 
@@ -96,9 +93,8 @@ class OrderServiceTest {
         verify(orderRepository, times(0)).save(any(Order.class));
     }
 
-    // unhappy path test
     @Test
-    void testUpdateStatusInvalidOrderId(){
+    void testUpdateStatusInvalidOrderId() {
         doReturn(null).when(orderRepository).findById("zczc");
 
         assertThrows(NoSuchElementException.class,
@@ -107,7 +103,6 @@ class OrderServiceTest {
         verify(orderRepository, times(0)).save(any(Order.class));
     }
 
-    // happy path test
     @Test
     void testFindByIdIfIdFound() {
         Order order = orders.get(1);
@@ -117,16 +112,14 @@ class OrderServiceTest {
         assertEquals(order.getId(), result.getId());
     }
 
-    // unhappy path test
     @Test
     void testFindByIdIfIdNotFound() {
         doReturn(null).when(orderRepository).findById("zczc");
         assertNull(orderService.findById("zczc"));
     }
 
-    // happy path test
     @Test
-    void testFindAllByAuthorIfAuthorCorrect(){
+    void testFindAllByAuthorIfAuthorCorrect() {
         Order order = orders.get(1);
         doReturn(orders).when(orderRepository).findAllByAuthor(order.getAuthor());
 
@@ -137,9 +130,8 @@ class OrderServiceTest {
         assertEquals(2, results.size());
     }
 
-    // unhappy path test
     @Test
-    void testFindAllByAuthorIfAllLowercase(){
+    void testFindAllByAuthorIfAllLowercase() {
         Order order = orders.get(1);
         doReturn(new ArrayList<Order>()).when(orderRepository)
                 .findAllByAuthor(order.getAuthor().toLowerCase());
