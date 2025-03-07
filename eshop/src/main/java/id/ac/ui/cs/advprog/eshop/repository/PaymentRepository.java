@@ -8,10 +8,10 @@ public class PaymentRepository {
     private List<Payment> payments = new ArrayList<>();
 
     public void save(Payment payment) {
-        return;
+        payments.add(payment);
     }
 
     public List<Payment> findAll() {
-        return null;
+        return payments;
     }
 }
