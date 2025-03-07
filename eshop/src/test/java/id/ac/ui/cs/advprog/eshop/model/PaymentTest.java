@@ -9,13 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PaymentTest {
     private List<Payment> payments;
     private List<Order> orders;
+    private List<Product> products;
 
     @BeforeEach
     void setUp() {
+        this.products = new ArrayList<>();
         this.orders = new ArrayList<>();
 
-        Order order1 = new Order("101", 1700000000L, "Diana Putri");
-        Order order2 = new Order("102", 1800000000L, "Andi Wijaya");
+        Product product1 = new Product("10", "Sampo Cap Bambang", 2);
+        Product product2 = new Product("11", "Sabun Cap Usep", 1);
+        this.products.add(product1);
+        this.products.add(product2);
+
+        Order order1 = new Order("101", this.products, 1700000000L, "Diana Putri");
+        Order order2 = new Order("102", this.products, 1800000000L, "Andi Wijaya");
 
         orders.add(order1);
         orders.add(order2);

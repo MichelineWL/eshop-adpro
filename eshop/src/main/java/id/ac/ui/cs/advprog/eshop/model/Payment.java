@@ -10,11 +10,20 @@ public class Payment {
     private String status;
 
     public Payment(String id, Order order, String method, List<String> paymentData) {
+        if (method.equals("COD")) {
+            validateCOD(paymentData);
+        }
         this.id = id;
         this.order = order;
         this.method = method;
         this.paymentData = paymentData;
         this.status = "PENDING";
+    }
+
+    private void validateCOD(List<String> data) {
+        if (data.get(0) == null || data.get(0).isEmpty()) {
+            throw new IllegalArgumentException("Address is required for COD");
+        }
     }
 
     public String getMethod() {
